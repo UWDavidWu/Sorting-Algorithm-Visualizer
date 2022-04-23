@@ -1,4 +1,3 @@
-
 import pygame
 import random
 import math
@@ -69,7 +68,7 @@ def generate_starting_list(n ,min_value, max_value):
         lst.append(random.randint(min_value, max_value))
     return lst
 
-def bubble_sort(draw_info):
+def bubbleSort(draw_info):
     lst = draw_info.lst
     for i in range(len(lst) -1):
         for j in range(len(lst) - i - 1):
@@ -77,20 +76,44 @@ def bubble_sort(draw_info):
                 lst[j], lst[j + 1] = lst[j + 1], lst[j]
                 draw_list(draw_info, {j:draw_info.WHITE, j + 1:draw_info.BLACK},True)
                 yield True
-                
+
+def insertionSort(draw_info):
+    lst = draw_info.lst
+    for i in range(1, len(lst)):
+        j = i 
+        while j > 0 and lst[j]< lst[j-1]:
+            lst[j], lst[j-1] = lst[j-1], lst[j]
+            j -=1
+            draw_list(draw_info, {j:draw_info.WHITE, j - 1:draw_info.BLACK},True)
+            yield True      
+
+def selectionSort(draw_info):
+    lst = draw_info.lst
+    currentIdx = 0
+    while currentIdx < len(lst):
+        smallIdx = currentIdx
+        for i in range(currentIdx +1, len(lst)):
+            if lst[i] < lst[smallIdx]:
+                smallIdx = i 
+        lst[currentIdx], lst[smallIdx] = lst[smallIdx], lst[currentIdx]
+        currentIdx+=1	
+        draw_list(draw_info, {currentIdx:draw_info.WHITE,smallIdx:draw_info.BLACK},True)
+        yield True
+    
 
 def main():
-    run = True
+    
     
     clock = pygame.time.Clock()
     sorting = False
-    sorting_algo = bubble_sort
+    sorting_algo = selectionSort
     sorting_algo_generator = None
 
-    draw_info = setting(800, 600, generate_starting_list(50, 0, 100))
+    draw_info = setting(800, 600, generate_starting_list(25, 0, 100))
 
+    run = True  
     while run:
-        clock.tick(60)
+        clock.tick(10)
         if sorting:
             try:
                 next(sorting_algo_generator)

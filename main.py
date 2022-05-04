@@ -1,3 +1,4 @@
+from webbrowser import get
 import pygame
 import random
 import math
@@ -12,13 +13,12 @@ class setting:
     GREY = 128,128,128
     BACKGROUND_COLOR = WHITE
     FONT = pygame.font.SysFont("comicsans", 30)
-    LARGE_FONT = pygame.font.SysFont("comicsans", 60)
     SIDE_PAD = 100
     TOP_PAD = 150
 
-    GRADIENTS =[GREEN
-                ,BLUE
-                ,RED]
+    GRADIENTS =[(26,132,184)
+                ,(26,148,184)
+                ,(26,164,184)]
 
     def __init__(self, width, height, lst):
         self.width = width
@@ -39,10 +39,12 @@ class setting:
 
         self.start_x = self.SIDE_PAD //2
 
-def draw(draw_info):
+def draw(draw_info, algo_name=""):
     draw_info.window.fill(draw_info.BACKGROUND_COLOR)
-    controls = draw_info.FONT.render("Press R to generate new list", True, draw_info.BLACK)
-    draw_info.window.blit(controls, (draw_info.width // 2 - controls.get_width() // 2, 5))
+    title = draw_info.FONT.render("Sorting Algorithms Visualizer", 1, draw_info.BLACK)
+    draw_info.window.blit(title, (draw_info.width // 2 - title.get_width() // 2, 5))
+    controls = draw_info.FONT.render("Press R to generate new list", 1, draw_info.BLACK)
+    draw_info.window.blit(controls, (draw_info.width // 2 - controls.get_width() // 2, 45))
     draw_list(draw_info)
     pygame.display.update()
 
@@ -103,10 +105,16 @@ def selectionSort(draw_info):
 
 def main():
     
+    # get function name from function
+
     
+
+
+
     clock = pygame.time.Clock()
     sorting = False
     sorting_algo = selectionSort
+    sorting_algo_name = sorting_algo.__name__
     sorting_algo_generator = None
 
     draw_info = setting(800, 600, generate_starting_list(25, 0, 100))
